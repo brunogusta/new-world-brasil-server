@@ -24,4 +24,5 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/files', express.static(path.resolve(__dirname, 'images')));
 
 require('./controllers/authController')(app);
-require('./controllers/guildController')(app);
+require('./controllers/createGuildController')(app);
+require('./controllers/listGuildController')(app);

@@ -15,7 +15,17 @@ router.post(
   '/create_guild',
   multer(multerConfig).single('file'),
   async (req, res) => {
-    const { title, description, consuls } = req.body;
+    const {
+      title,
+      discord,
+      governor,
+      faction,
+      size,
+      recruting,
+      description,
+      focus,
+      consuls,
+    } = req.body;
 
     try {
       if (req.fileValidationError) {
@@ -58,6 +68,12 @@ router.post(
         const data = {
           _creatorId: req.userId,
           title,
+          discord,
+          governor,
+          faction,
+          size,
+          focus,
+          recruting,
           description,
           consuls,
           imageUrl: url,
@@ -71,6 +87,12 @@ router.post(
         const data = {
           _creatorId: req.userId,
           title,
+          discord,
+          governor,
+          faction,
+          size,
+          focus,
+          recruting,
           description,
           consuls,
         };

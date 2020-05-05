@@ -101,44 +101,40 @@ router.get('/confirmed_email', async (req, res) => {
 });
 
 router.post('/signin', async (req, res) => {
-  const { email, password } = req.body;
-  const user = await User.findOne({ email }).select('+password');
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email }).select('+password');
 
-  if (req.headers.authorization) {
-    return res.status(400).send({ error: 'O usuário já está logado.' });
-  }
-
-  if (!user) {
-    return res.status(400).send({ error: 'O E-mail informado não existe' });
-  }
-
-  if (!user.isVerified) {
-    return res
-      .status(400)
-      .send({ error: 'Confirme seu e-mail para prosseguir com login' });
-  }
-
-  await bcrypt.compare(password, user.password, (err, result) => {
-    if (err) {
-      console.log(err);
+    if (req.headers.authorization) {
+      return res.status(400).send({ error: 'O usuário já está logado.' });
     }
 
-    console.log(result);
-  });
+    if (!user) {
+      return res.status(400).send({ error: 'O E-mail informado não existe' });
+    }
 
-  if (!(await bcrypt.compare(password, user.password))) {
-    return res.status(400).send({ error: 'Senha incorreta' });
+    if (!user.isVerified) {
+      return res
+        .status(400)
+        .send({ error: 'Confirme seu e-mail para prosseguir com login' });
+    }
+
+    if (!(await bcrypt.compare(password, user.password))) {
+      return res.status(400).send({ error: 'Senha incorreta' });
+    }
+
+    user.password = undefined;
+    return res.send({
+      user,
+      token: generateToken({
+        id: user.id,
+        supporter: user.isSupporter,
+        email: user.email,
+      }),
+    });
+  } catch (e) {
+    console.log(e);
   }
-
-  user.password = undefined;
-  return res.send({
-    user,
-    token: generateToken({
-      id: user.id,
-      supporter: user.isSupporter,
-      email: user.email,
-    }),
-  });
 });
 
 router.post('/forgot_password', async (req, res) => {
