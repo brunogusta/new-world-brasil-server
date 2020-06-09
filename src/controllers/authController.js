@@ -4,6 +4,7 @@ import User from '../models/userSchema';
 import Token from '../models/tokenSchema';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import authMiddleware from '../middlewares/auth';
 
 import sgMail from '@sendgrid/mail';
 
@@ -38,8 +39,7 @@ router.post('/signup', async (req, res) => {
       token: crypto.randomBytes(20).toString('hex'),
     });
 
-    const link =
-      'http://' + 'localhost:3000' + '/auth/confirmed_email/?token=' + token;
+    const link = `http://localhost:3000/auth/confirmed-email/${token}`;
 
     const mailOptions = {
       to: user.email,
@@ -72,9 +72,9 @@ router.post('/signup', async (req, res) => {
   }
 });
 
-router.get('/confirmed_email', async (req, res) => {
+router.get('/confirmed-email/:token', async (req, res) => {
   try {
-    const token = await Token.findOne({ token: req.query.token }).populate(
+    const token = await Token.findOne({ token: req.params.token }).populate(
       'user'
     );
 
@@ -130,6 +130,7 @@ router.post('/signin', async (req, res) => {
         id: user.id,
         supporter: user.isSupporter,
         email: user.email,
+        admin: user.admin,
       }),
     });
   } catch (e) {
@@ -137,7 +138,7 @@ router.post('/signin', async (req, res) => {
   }
 });
 
-router.post('/forgot_password', async (req, res) => {
+router.post('/forgot-password', async (req, res) => {
   try {
     const { email } = req.body;
     const user = await User.findOne({ email });
@@ -158,8 +159,7 @@ router.post('/forgot_password', async (req, res) => {
       },
     });
 
-    const link =
-      'http://' + 'localhost:3000' + '/auth/reset_password/?token=' + token;
+    const link = `http://localhost:3000/auth/reset-password/${token}`;
 
     const mailOptions = {
       to: user.email,
@@ -185,10 +185,10 @@ router.post('/forgot_password', async (req, res) => {
   }
 });
 
-router.put('/reset_password', async (req, res) => {
+router.put('/reset-password/:token', async (req, res) => {
   try {
     const { password } = req.body;
-    const token = req.query.token;
+    const token = req.params.token;
 
     if (!token) {
       return res.status(400).send({
@@ -227,7 +227,7 @@ router.put('/reset_password', async (req, res) => {
   }
 });
 
-router.post('/resend_email', async (req, res) => {
+router.post('/resend-email', async (req, res) => {
   try {
     const { email } = req.body;
     const user = await User.findOne({ email });
@@ -246,8 +246,7 @@ router.post('/resend_email', async (req, res) => {
     });
 
     // usar req.headers.host
-    const link =
-      'http://' + 'localhost:3000' + '/auth/confirmed_email/?token=' + token;
+    const link = `http://localhost:3000/auth/confirmed-email/${token}`;
 
     const mailOptions = {
       to: user.email,
@@ -275,6 +274,23 @@ router.post('/resend_email', async (req, res) => {
     console.log(e);
     res.status(500).send({
       error: 'Houve um erro ao reenviar seu email, tente novamente',
+    });
+  }
+});
+
+router.use(authMiddleware);
+router.get('/admin-validation', async (req, res) => {
+  try {
+    const isAdmin = req.isAdmin;
+    if (!isAdmin) {
+      res.status(401).send({
+        error: 'Usuário não é administrador',
+      });
+    }
+    res.status(200).send(true);
+  } catch (e) {
+    res.status(500).send({
+      error: 'Erro inesperado, tente novamente',
     });
   }
 });
