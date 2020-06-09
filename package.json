@@ -17,6 +17,7 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
+    "dynamoose": "^2.2.1",
     "eslint-utils": "^1.4.2",
     "express": "^4.17.1",
     "express-query-int": "^1.0.1",
@@ -33,7 +34,8 @@
     "nodemailer-handlebars": "^1.0.1",
     "pm2": "^2.1.5",
     "sharp": "^0.25.2",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.2.0",
+    "uuid": "^8.1.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

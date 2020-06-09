@@ -34,6 +34,7 @@ export default (req, res, next) => {
     req.userId = decoded.id;
     req.email = decoded.email;
     req.isSupporter = decoded.supporter;
+    req.isAdmin = decoded.admin;
     return next();
   });
 };
