@@ -38,6 +38,15 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  haveCompany: {
+    type: Boolean,
+    default: false,
+    required: true,
+  },
+  _companyId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Company',
+  },
   createdAt: {
     type: Date,
     default: Date.now,
