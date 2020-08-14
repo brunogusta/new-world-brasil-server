@@ -278,6 +278,17 @@ router.post('/resend-email', async (req, res) => {
   }
 });
 
+router.get('/validate-token', async (req, res) => {
+  const authHeader = req.headers.authorization;
+  const parts = authHeader.split(' ');
+
+  jwt.verify(parts[1], process.env.SECRET, err => {
+    if (err && err.message === 'jwt expired') {
+      return res.status(401).send({ error: 'Token expirado', expired: true });
+    }
+  });
+});
+
 router.use(authMiddleware);
 router.get('/admin-validation', async (req, res) => {
   try {

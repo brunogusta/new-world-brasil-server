@@ -26,10 +26,11 @@ export default (req, res, next) => {
   }
 
   jwt.verify(token, process.env.SECRET, (err, decoded) => {
-    if (err)
+    if (err) {
       return res
         .status(401)
         .send({ error: 'Um erro inesperado ocorreu, faça login novamente' });
+    }
 
     req.userId = decoded.id;
     req.email = decoded.email;

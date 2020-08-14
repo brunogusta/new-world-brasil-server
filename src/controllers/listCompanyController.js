@@ -76,6 +76,7 @@ router.get('/supporters', async (req, res) => {
       .select('-_id')
       .select('_companyId');
 
+    console.log(starCompany);
     if (starCompany.length === 0) {
       return res.status(200).send(null);
     }

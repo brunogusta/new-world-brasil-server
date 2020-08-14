@@ -19,3 +19,4 @@ require('./controllers/listCompanyController')(app);
 require('./controllers/registryCompanyController')(app);
 require('./controllers/postsController')(app);
 require('./controllers/listUserController')(app);
+require('./controllers/livesController')(app);

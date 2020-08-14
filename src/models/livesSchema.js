@@ -7,10 +7,14 @@ const LiveSchema = new mongoose.Schema(
       required: true,
       ref: 'User',
     },
+    liveURL: {
+      type: String,
+      required: true,
+    },
     imageUrl: {
       type: String,
       default:
-        'https://awstest13334565.s3.us-east-2.amazonaws.com/CompaniesImages/frsAoAtGpzvWgWO8nLE1.jpg',
+        'https://awstest13334565.s3.us-east-2.amazonaws.com/LivesImages/frsAoAtGpzvWgWO8nLE1.jpg',
     },
     isActive: {
       type: Boolean,

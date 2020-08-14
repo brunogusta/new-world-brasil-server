@@ -47,6 +47,27 @@ const UserSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Company',
   },
+  nickDiscord: {
+    type: String,
+  },
+  nickInGame: {
+    type: String,
+  },
+  lvl: {
+    type: Number,
+  },
+  especialization: {
+    type: String,
+  },
+  focus: {
+    type: String,
+  },
+  faction: {
+    type: String,
+  },
+  findingCompany: {
+    type: Boolean,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

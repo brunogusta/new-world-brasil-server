@@ -17,4 +17,19 @@ router.get('/find-one', async (req, res) => {
   }
 });
 
+router.post('/save-user-info', async (req, res) => {
+  try {
+    const savedUserInfo = await User.findByIdAndUpdate(
+      { _id: req.userId },
+      req.body.values
+    );
+
+    res.status(200).send(savedUserInfo);
+  } catch (e) {
+    res
+      .status(500)
+      .send({ error: 'Houve um erro inesperado, tente novamente' });
+  }
+});
+
 module.exports = app => app.use('/user', router);
