@@ -34,7 +34,7 @@
     "nodemailer-handlebars": "^1.0.1",
     "pm2": "^2.1.5",
     "sharp": "^0.25.2",
-    "socket.io": "^2.2.0",
+    "socket.io": "^2.4.0",
     "uuid": "^8.1.0"
   },
   "devDependencies": {
