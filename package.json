@@ -30,7 +30,7 @@
     "multer": "^1.4.2",
     "multer-s3": "^2.9.0",
     "node-restful": "^0.2.5",
-    "nodemailer": "^6.4.6",
+    "nodemailer": "^6.4.16",
     "nodemailer-handlebars": "^1.0.1",
     "pm2": "^2.1.5",
     "sharp": "^0.25.2",
